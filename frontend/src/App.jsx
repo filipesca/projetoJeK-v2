@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import ClientInterface from './ClientInterface';
-import KitchenDashboard from './KitchenDashboard';
+import ClientInterface from './pages/ClientInterface';
+import KitchenDashboard from './pages/KitchenDashboard';
 
 function App() {
   return (
