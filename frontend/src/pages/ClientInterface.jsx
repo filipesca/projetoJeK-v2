@@ -33,17 +33,23 @@ export default function ClientInterface() {
   };
 
   const submitOrder = async () => {
-    if (!table || cart.length === 0) return alert("Selecione a mesa e os itens.");
+    // Nova validação da mesa:
+    if (!table || parseInt(table, 10) <= 0) {
+      return alert("Por favor, insira um numero de mesa valido.");
+    }
+    if (cart.length === 0) {
+      return alert("Adicione pelo menos um item ao pedido.");
+    }
+
     try {
       await axios.post('http://localhost:8000/api/orders/', {
         table_number: parseInt(table, 10),
-        // O Django espera 'items', e nós mapeamos apenas os campos necessários
         items: cart.map(c => ({ menu_item_id: c.menu_item_id, quantity: c.quantity }))
       });
       alert("Pedido submetido com sucesso!"); 
       setCart([]); 
       setTable('');
-      setQuantities({}); // Limpar os inputs também
+      setQuantities({});
     } catch (error) {
       console.error(error);
       alert("Erro ao submeter pedido.");
@@ -57,6 +63,7 @@ export default function ClientInterface() {
         <label style={{ fontWeight: 'bold' }}>Mesa: </label>
         <input 
           type="number" 
+          min="1"
           value={table} 
           onChange={(e) => setTable(e.target.value)} 
           style={{ padding: '5px', width: '60px' }}
