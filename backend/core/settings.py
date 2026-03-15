@@ -1,3 +1,17 @@
+from pathlib import Path
+
+# Constrói caminhos dentro do projeto assim: BASE_DIR / 'subdir'.
+# (Se já tiveres esta linha no topo do ficheiro, não precisas de duplicar)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Configuração da Base de Dados
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,7 +34,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]~
+]
 
 TEMPLATES = [
     {
