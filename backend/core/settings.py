@@ -8,7 +8,7 @@ INSTALLED_APPS = [
     # As tuas adições:
     'rest_framework',
     'corsheaders',
-    'backend',  # Substitui pelo nome da app onde criaste o models.py e views.py
+    'restaurant',
 ]
 
 MIDDLEWARE = [
