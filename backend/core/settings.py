@@ -52,5 +52,13 @@ TEMPLATES = [
     },
 ]
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ['*'] # O asterisco permite acederes através de localhost, 127.0.0.1, etc.
+
 # Para desenvolvimento local, podes permitir todas as origens:
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
