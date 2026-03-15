@@ -1,11 +1,7 @@
+from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from ..restaurant.views import MenuItemViewSet, OrderViewSet
-
-router = DefaultRouter()
-router.register(r'menu', MenuItemViewSet)
-router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('admin/', admin.site.urls),
+    path('', include('restaurant.urls')), # Liga as rotas da app
 ]
