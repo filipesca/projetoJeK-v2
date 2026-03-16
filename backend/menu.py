@@ -1,13 +1,11 @@
 import os
 import django
 
-# Diz ao script onde encontrar as tuas configurações do Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
 from restaurant.models import MenuItem
 
-# Lista de pratos baseados nas 5 categorias do enunciado
 pratos_iniciais = [
     {
         'name': 'Entrada',
@@ -80,7 +78,7 @@ pratos_iniciais = [
 print("A adicionar menu")
 
 for prato_data in pratos_iniciais:
-    # O get_or_create evita que cries pratos duplicados se correres o script duas vezes
+    # O get_or_create evita criar pratos duplicados
     prato, criado = MenuItem.objects.get_or_create(**prato_data)
     if criado:
         print(f"Adicionado: {prato.name}")

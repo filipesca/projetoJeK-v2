@@ -33,12 +33,11 @@ export default function ClientInterface() {
   };
 
   const removeFromCart = (itemId) => {
-    // Filtra o carrinho, mantendo apenas os itens que NÃO têm o ID que queremos remover
+    // Filtra o carrinho, mantendo apenas os itens que nao tem o ID que queremos remover
     setCart(cart.filter(item => item.menu_item_id !== itemId));
   };
 
   const submitOrder = async () => {
-    // Nova validação da mesa:
     if (!table || parseInt(table, 10) <= 0) {
       return alert("Por favor, insira um numero de mesa valido.");
     }

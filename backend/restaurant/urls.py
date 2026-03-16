@@ -8,6 +8,6 @@ router.register(r'menu', MenuItemViewSet)
 router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
-    # O prefixo 'api/' garante que os endpoints correspondem ao frontend
+    # O 'api/' garante que os endpoints correspondem ao frontend
     path('api/', include(router.urls)),
 ]

@@ -7,7 +7,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    # Incluímos os detalhes do prato para facilitar a leitura no frontend da cozinha
+    # Detalhes do prato para facilitar a leitura no frontend da cozinha
     menu_item_details = MenuItemSerializer(source='menu_item', read_only=True)
     menu_item_id = serializers.PrimaryKeyRelatedField(
         queryset=MenuItem.objects.all(), source='menu_item', write_only=True

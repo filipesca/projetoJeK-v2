@@ -2,11 +2,8 @@ from pathlib import Path
 
 SECRET_KEY = 'django-insecure-k=^p_4@x6z8!w1(9y#m2*q7+r5)v0$b3%h8&d5~t9'
 
-# Constrói caminhos dentro do projeto assim: BASE_DIR / 'subdir'.
-# (Se já tiveres esta linha no topo do ficheiro, não precisas de duplicar)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Configuração da Base de Dados
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -53,15 +50,12 @@ TEMPLATES = [
     },
 ]
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] # O asterisco permite acederes através de localhost, 127.0.0.1, etc.
+ALLOWED_HOSTS = ['*']
 
 ROOT_URLCONF = 'core.urls'
 
-# Para desenvolvimento local, podes permitir todas as origens:
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

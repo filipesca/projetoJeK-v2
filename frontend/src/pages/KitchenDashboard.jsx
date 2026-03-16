@@ -7,11 +7,11 @@ const STATUS_COLUMNS = [
   'Cooling Down',
   'Ready to Serve',
   'Concluded'
-]; // [cite: 38]
+];
 
 export default function KitchenDashboard() {
   const [orders, setOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null); // Para o modal de ingredientes
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchOrders = async () => {
     try {
@@ -24,8 +24,8 @@ export default function KitchenDashboard() {
 
   useEffect(() => {
     fetchOrders();
-    // Opcional: setInterval para auto-refresh simples se não usares WebSockets
-    const interval = setInterval(fetchOrders, 10000); 
+    // Refresca os pedidos a cada 10 segundos para manter a cozinha atualizada sem precisar clicar no botão
+    const interval = setInterval(fetchOrders, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -34,7 +34,7 @@ export default function KitchenDashboard() {
       await axios.patch(`http://localhost:8000/api/orders/${orderId}/status/`, {
         status: newStatus
       });
-      fetchOrders(); // Recarregar após atualizar
+      fetchOrders();
     } catch (error) {
       console.error("Erro ao atualizar estado:", error);
       alert("Erro ao atualizar o estado do pedido.");
@@ -42,22 +42,19 @@ export default function KitchenDashboard() {
   };
 
   const deleteOrder = async (orderId) => {
-    // Um pequeno aviso para evitar apagar pedidos sem querer
-    if (window.confirm("Tem a certeza que deseja eliminar este pedido permanentemente?")) {
-      try {
-        await axios.delete(`http://localhost:8000/api/orders/${orderId}/`);
-        fetchOrders(); // Recarrega os pedidos após apagar
-      } catch (error) {
-        console.error("Erro ao eliminar pedido:", error);
-        alert("Erro ao eliminar o pedido.");
-      }
+    try {
+      await axios.delete(`http://localhost:8000/api/orders/${orderId}/`);
+      fetchOrders(); // Recarrega os pedidos após remover
+    } catch (error) {
+      console.error("Erro ao eliminar pedido:", error);
+      alert("Erro ao eliminar o pedido.");
     }
   };
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Dashboard de Cozinha</h1>
+        <h1>Dashboard Cozinha</h1>
         <button 
           onClick={fetchOrders}
           style={{ padding: '10px 20px', background: '#3498db', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
@@ -86,7 +83,7 @@ export default function KitchenDashboard() {
                   {/* Botão de Eliminar */}
                   <button 
                     onClick={(e) => {
-                      e.stopPropagation(); // Impede que o modal de ingredientes abra ao clicar neste botão
+                      e.stopPropagation();
                       deleteOrder(order.id);
                     }}
                     style={{ background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer', fontSize: '0.8em' }}

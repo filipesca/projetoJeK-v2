@@ -10,7 +10,6 @@ class MenuItem(models.Model):
     ]
     
     name = models.CharField(max_length=100)
-    # Categorias fixas conforme os requisitos
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES) 
     description = models.TextField()
     ingredients = models.TextField()
@@ -28,7 +27,6 @@ class Order(models.Model):
     ]
     
     table_number = models.IntegerField()
-    # Fases do pedido para o quadro da cozinha
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Order Preview')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -36,7 +34,6 @@ class Order(models.Model):
         return f"Mesa {self.table_number} - {self.status}"
 
 class OrderItem(models.Model):
-    # Relaciona o pedido a um item específico e à sua quantidade
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
