@@ -32,6 +32,11 @@ export default function ClientInterface() {
     }
   };
 
+  const removeFromCart = (itemId) => {
+    // Filtra o carrinho, mantendo apenas os itens que NÃO têm o ID que queremos remover
+    setCart(cart.filter(item => item.menu_item_id !== itemId));
+  };
+
   const submitOrder = async () => {
     // Nova validação da mesa:
     if (!table || parseInt(table, 10) <= 0) {
@@ -102,8 +107,22 @@ export default function ClientInterface() {
       <div style={{ marginTop: '30px', padding: '20px', background: '#f9f9f9', borderRadius: '8px', border: '1px solid #ddd' }}>
         <h3>Resumo do Pedido</h3>
         {cart.length === 0 ? <p>O seu pedido está vazio.</p> : (
-          <ul style={{ paddingLeft: '20px' }}>
-            {cart.map((c, idx) => <li key={idx}>{c.quantity}x {c.name}</li>)}
+          <ul style={{ paddingLeft: '0', listStyleType: 'none', margin: '0 0 15px 0' }}>
+            {cart.map((c) => (
+              <li 
+                key={c.menu_item_id} 
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: '#fff', borderRadius: '4px', border: '1px solid #eee' }}
+              >
+                <span><strong>{c.quantity}x</strong> {c.name}</span>
+                <button 
+                  onClick={() => removeFromCart(c.menu_item_id)}
+                  style={{ background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '4px 8px', fontSize: '0.8em' }}
+                  title="Remover prato"
+                >
+                  Remover
+                </button>
+              </li>
+            ))}
           </ul>
         )}
         <button 

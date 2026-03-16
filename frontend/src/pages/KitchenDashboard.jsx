@@ -41,6 +41,19 @@ export default function KitchenDashboard() {
     }
   };
 
+  const deleteOrder = async (orderId) => {
+    // Um pequeno aviso para evitar apagar pedidos sem querer
+    if (window.confirm("Tem a certeza que deseja eliminar este pedido permanentemente?")) {
+      try {
+        await axios.delete(`http://localhost:8000/api/orders/${orderId}/`);
+        fetchOrders(); // Recarrega os pedidos após apagar
+      } catch (error) {
+        console.error("Erro ao eliminar pedido:", error);
+        alert("Erro ao eliminar o pedido.");
+      }
+    }
+  };
+
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -69,6 +82,18 @@ export default function KitchenDashboard() {
                   <span style={{ color: '#7f8c8d' }}>
                     {new Date(order.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </span>
+
+                  {/* Botão de Eliminar */}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Impede que o modal de ingredientes abra ao clicar neste botão
+                      deleteOrder(order.id);
+                    }}
+                    style={{ background: '#e74c3c', color: 'white', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer', fontSize: '0.8em' }}
+                    title="Eliminar Pedido"
+                  >
+                    Delete
+                  </button>
                 </div>
                 
                 <ul style={{ paddingLeft: '20px', margin: '10px 0' }}>
