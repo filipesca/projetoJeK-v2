@@ -1,0 +1,17 @@
+# FRONTEND
+
+node_modules/
+dist/
+build/
+npm-debug.log*
+yarn-error.log*
+
+# BACKEND
+__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+db.sqlite3-journal
+
+# VSCODE
+.vscode/
