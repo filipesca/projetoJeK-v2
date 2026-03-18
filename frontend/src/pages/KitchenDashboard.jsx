@@ -13,6 +13,7 @@ export default function KitchenDashboard() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
+  // Vai buscar a lista atualizada de pedidos
   const fetchOrders = async () => {
     try {
       const res = await axios.get('http://localhost:8000/api/orders/');
@@ -22,12 +23,14 @@ export default function KitchenDashboard() {
     }
   };
 
+  // Atualiza a lista automaticamente a cada 5 segundos
   useEffect(() => {
     fetchOrders();
-    const interval = setInterval(fetchOrders, 10000); 
+    const interval = setInterval(fetchOrders, 5000); 
     return () => clearInterval(interval);
   }, []);
 
+  // Envia um pedido ao servidor para alterar a fase de um pedido
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.patch(`http://localhost:8000/api/orders/${orderId}/status/`, {
@@ -50,9 +53,9 @@ export default function KitchenDashboard() {
     }
   };
 
-  // FUNCOES DE DRAG AND DROP
+  // Funcoes drag and drop
   
-  // Quando começa a arrastar , guardamos o ID
+  // Guarda o ID quando começa a arrastar
   const handleDragStart = (e, orderId) => {
     e.dataTransfer.setData('orderId', orderId);
   };
@@ -74,12 +77,12 @@ export default function KitchenDashboard() {
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Dashboard de Cozinha (Kanban)</h1>
+        <h1>Dashboard Cozinha</h1>
         <button 
           onClick={fetchOrders}
           style={{ padding: '10px 20px', background: '#3498db', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
         >
-          Atualizar Pedidos 🔄
+          Atualizar
         </button>
       </div>
 
@@ -93,6 +96,7 @@ export default function KitchenDashboard() {
           >
             <h3 style={{ marginTop: 0, textAlign: 'center' }}>{status}</h3>
             
+            {/*filtra os pedidos para mostrar apenas aqueles que pertencem a coluna*/}
             {orders.filter(o => o.status === status).map(order => (
               <div 
                 key={order.id} 
@@ -135,7 +139,7 @@ export default function KitchenDashboard() {
         ))}
       </div>
 
-      {/* Modal de Detalhes / Ingredientes mantém-se igual */}
+      {/*se um cartao for selecionado*/}
       {selectedOrder && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ background: 'white', padding: '30px', borderRadius: '8px', maxWidth: '500px', width: '100%' }}>

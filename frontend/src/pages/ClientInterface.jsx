@@ -8,10 +8,12 @@ export default function ClientInterface() {
   const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
+    // Quando carrega, vai buscar o menu no backend
     axios.get('http://localhost:8000/api/menu/').then(res => setMenu(res.data));
   }, []);
 
   const handleQuantityChange = (id, value) => {
+    // Atualiza o estado 'quantities' usando o ID do prato como key
     setQuantities({ ...quantities, [id]: parseInt(value, 10) });
   };
 
@@ -19,6 +21,7 @@ export default function ClientInterface() {
     const qty = quantities[item.id] || 1;
     if (qty > 0) {
       const existingItem = cart.find(c => c.menu_item_id === item.id);
+      // Se o item ja estiver no carrinho apenas soma a nova quantidade
       if (existingItem) {
         setCart(cart.map(c => 
           c.menu_item_id === item.id 
@@ -26,6 +29,7 @@ export default function ClientInterface() {
             : c
         ));
       } else {
+        // Se e um item novo adiciona ao array do carrinho
         setCart([...cart, { menu_item_id: item.id, quantity: qty, name: item.name }]);
       }
       setQuantities({ ...quantities, [item.id]: 1 });
@@ -33,7 +37,7 @@ export default function ClientInterface() {
   };
 
   const removeFromCart = (itemId) => {
-    // Filtra o carrinho, mantendo apenas os itens que nao tem o ID que queremos remover
+    // Filtra o carrinho mantendo apenas os itens que nao tem o ID que queremos remover
     setCart(cart.filter(item => item.menu_item_id !== itemId));
   };
 
@@ -45,6 +49,7 @@ export default function ClientInterface() {
       return alert("Adicione pelo menos um item ao pedido.");
     }
 
+    // Envia o pedido para o servidor
     try {
       await axios.post('http://localhost:8000/api/orders/', {
         table_number: parseInt(table, 10),
@@ -77,6 +82,7 @@ export default function ClientInterface() {
       {['Entradas', 'Sopas', 'Carne', 'Peixe', 'Sobremesa'].map(cat => (
         <div key={cat}>
           <h2 style={{ borderBottom: '2px solid #2c3e50', paddingBottom: '5px' }}>{cat}</h2>
+          {/*filtra o menu de acordo com a categoria*/}
           {menu.filter(m => m.category === cat).map(item => (
             <div key={item.id} style={{ border: '1px solid #ccc', borderRadius: '8px', margin: '10px 0', padding: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ flex: 1 }}>
@@ -105,7 +111,7 @@ export default function ClientInterface() {
       
       <div style={{ marginTop: '30px', padding: '20px', background: '#f9f9f9', borderRadius: '8px', border: '1px solid #ddd' }}>
         <h3>Resumo do Pedido</h3>
-        {cart.length === 0 ? <p>O seu pedido está vazio.</p> : (
+        {cart.length === 0 ? <p>O seu pedido esta vazio.</p> : (
           <ul style={{ paddingLeft: '0', listStyleType: 'none', margin: '0 0 15px 0' }}>
             {cart.map((c) => (
               <li 
